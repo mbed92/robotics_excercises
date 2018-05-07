@@ -1,15 +1,22 @@
+# just display robot in 3D
+
+import robopy.base.transforms as trans
 import numpy as np
-import robopy.base.model as model
 
 
 def run(robot):
 
-    a = np.transpose(np.asmatrix(np.linspace(1, -180, 500)))
-    b = np.transpose(np.asmatrix(np.linspace(1, 180, 500)))
-    c = np.transpose(np.asmatrix(np.linspace(1, 90, 500)))
-    d = np.transpose(np.asmatrix(np.linspace(1, 450, 500)))
-    e = np.asmatrix(np.zeros((500, 1)))
+    num_steps = 50
+
+    # positions of camera
+    a = np.transpose(np.asmatrix(np.linspace(1, -180, num_steps)))
+    b = np.transpose(np.asmatrix(np.linspace(1, 180, num_steps)))
+    c = np.transpose(np.asmatrix(np.linspace(1, 90, num_steps)))
+    d = np.transpose(np.asmatrix(np.linspace(1, 450, num_steps)))
+    e = np.asmatrix(np.zeros((num_steps, 1)))
     command = np.concatenate((d, b, a, e, c, d), axis=1)
+
+    print(command)
 
     # animate results
     robot.animate(stances=command, frame_rate=30, unit='deg')
