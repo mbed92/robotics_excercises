@@ -25,7 +25,8 @@ def main():
         sys.exit()
 
     # start excercise
-    load_robot_and_display_00.run(model)
+    # load_robot_and_display_00.run(model)
+    straight_line_movement_01.run(model)
 
 
 # run main
