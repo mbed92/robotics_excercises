@@ -24,9 +24,10 @@ def main():
         print("Bad model specified. Try again.")
         sys.exit()
 
-    # start excercise
-    load_robot_and_display_00.run(model)
-    # straight_line_movement_01.run(model)
+    # start exercises - uncomment one
+    # load_robot_and_display_00.run(model)
+    # joint_move_01.run(model)
+    linear_move_02.run(model)
 
 
 # run main
