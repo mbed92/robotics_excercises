@@ -1,2 +1,2 @@
-from . import cmds
+from . import moves
 

@@ -1,6 +1,6 @@
 # Define two points - P1 and P2. Implement move_j between two points.
 
-from commands.cmds import move_j
+from commands.moves import move_j
 
 
 def run(robot):
