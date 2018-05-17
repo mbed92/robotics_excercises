@@ -15,7 +15,7 @@ def run(robot):
     print(start)
 
     rot2 = rpy2r([0, 0, 0], unit='deg')
-    tran2 = [0.0, 0.5, 0.0]
+    tran2 = [0.0, .2, .2]
     stop = pose.SE3(tran2[0], tran2[1], tran2[2], rot2)
     print(stop)
 

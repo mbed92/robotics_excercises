@@ -35,7 +35,7 @@ def type_check(robot, start, stop, convert="joints"):
     return start, stop
 
 
-def move_j(robot, P1, P2, number_of_joints=6, path_length=100):
+def move_j(robot, P1, P2, number_of_joints=6, path_length=500):
 
     # type check
     start, stop = type_check(robot, P1, P2, "joints")
@@ -58,13 +58,13 @@ def move_j(robot, P1, P2, number_of_joints=6, path_length=100):
     return path
 
 
-def move_lin(robot, P1, P2, number_of_joints=6, path_length=1000):
+def move_lin(robot, P1, P2, number_of_joints=6, path_length=500):
 
     # type check
     start, stop = type_check(robot, P1, P2, "se3")
 
     # define on how many interpolation poits the line will be divided
-    incremental_step = 250
+    incremental_step = 50
 
     # compute points in 3D
     r_start, t_start = transforms.tr2rt(np.asmatrix(start.data[0]))
