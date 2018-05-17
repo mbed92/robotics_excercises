@@ -28,6 +28,7 @@ def main():
     # load_robot_and_display_00.run(model)
     # joint_move_01.run(model)
     linear_move_02.run(model)
+    # playground.run(model)
 
 
 # run main

@@ -11,19 +11,19 @@ def run(robot):
 
     rot1 = rpy2r([0, 0, 0], unit='deg')
     tran1 = [0.0, 0.0, 0.0]
-    start = pose.SE3(0, 0, 0, rot1)
+    start = pose.SE3(tran1[0], tran1[1], tran1[2], rot1)
     print(start)
 
-    rot2 = rpy2r([90, 0, 0], unit='deg')
-    tran2 = [0.0, 0.1, 0.1]
+    rot2 = rpy2r([0, 0, 0], unit='deg')
+    tran2 = [0.0, 0.5, 0.0]
     stop = pose.SE3(tran2[0], tran2[1], tran2[2], rot2)
     print(stop)
 
-    pose.SE3(tran1[0], tran1[1], tran1[2], rot1).plot()
-    pose.SE3(tran2[0], tran2[1], tran2[2], rot2).plot()
+    # plot poses if needed
+    # pose.SE3(tran1[0], tran1[1], tran1[2], rot1).plot()
+    # pose.SE3(tran2[0], tran2[1], tran2[2], rot2).plot()
 
     path = move_lin(robot, start, stop)
-    print(path)
 
     # animate robot
-    robot.animate(stances=path, frame_rate=5, unit='deg')
+    robot.animate(stances=path, frame_rate=30, unit='deg')

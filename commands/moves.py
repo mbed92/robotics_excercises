@@ -1,6 +1,8 @@
 import numpy as np
+import time
 
 from robopy.base import pose
+from robopy.base import transforms
 
 
 def type_check(robot, start, stop, convert="joints"):
@@ -44,6 +46,7 @@ def move_j(robot, P1, P2, number_of_joints=6, path_length=100):
 
     # prepare joint trajectory
     path = []
+
     for i in range(number_of_joints):
 
         joint_path = np.transpose(np.asmatrix(np.linspace(start[i], stop[i], path_length)))
@@ -55,31 +58,40 @@ def move_j(robot, P1, P2, number_of_joints=6, path_length=100):
     return path
 
 
-def move_lin(robot, P1, P2, number_of_joints=6, path_length=100):
+def move_lin(robot, P1, P2, number_of_joints=6, path_length=1000):
 
     # type check
     start, stop = type_check(robot, P1, P2, "se3")
 
-    # compute increment
-    incremental_step = 10
-    increment = (stop - start) / path_length
-    increment = np.array(increment.data)
+    # define on how many interpolation poits the line will be divided
+    incremental_step = 250
+
+    # compute points in 3D
+    r_start, t_start = transforms.tr2rt(np.asmatrix(start.data[0]))
+    r_stop, t_stop = transforms.tr2rt(np.asmatrix(stop.data[0]))
+
+    # 3D points incremented by this factor on line - represent as homogenous matrix
+    increment = np.array((t_stop - t_start) / incremental_step).reshape(3)
+    increment_homog = np.asmatrix(transforms.transl(increment[0], increment[1], increment[2]))
+
+    # prepare points with const rotation (ignore target rot)
+    current_pose = np.asmatrix(start.data[0])
 
     # compute path
-    current_pose = start.data
     path = []
     for i in range(int(path_length / incremental_step)):
 
         # compute joint increments
-        next_pose = current_pose + increment
+        next_pose = current_pose * increment_homog
 
-        joint_start = robot.ikine(np.asmatrix(current_pose[0].data)) * 180 / np.pi
-        joint_stop = robot.ikine(np.asmatrix(next_pose[0].data)) * 180 / np.pi
+        joint_start = np.array(np.transpose(robot.ikine(np.asmatrix(current_pose))) * 180 / np.pi).reshape([number_of_joints])
+        joint_stop = np.array(np.transpose(robot.ikine(np.asmatrix(next_pose))) * 180 / np.pi).reshape([number_of_joints])
 
         # compute movement on short range
         path_part = []
         for k in range(number_of_joints):
-            joint_path = np.transpose(np.asmatrix(np.linspace(joint_start[0, k], joint_stop[0, k], incremental_step)))
+
+            joint_path = np.transpose(np.asmatrix(np.linspace(joint_start[k], joint_stop[k], incremental_step)))
 
             if k < 1:
                 path_part = joint_path
@@ -90,9 +102,9 @@ def move_lin(robot, P1, P2, number_of_joints=6, path_length=100):
         if i < 1:
             path = path_part
         else:
-            path = np.concatenate((path, path_part), axis=1)
+            path = np.concatenate((path, path_part), axis=0)
 
         # update pose
-        current_pose = current_pose + increment
+        current_pose = current_pose * increment_homog
 
     return path
