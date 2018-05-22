@@ -10,12 +10,12 @@ from commands.moves import move_lin, move_j
 def run(robot):
 
     rot1 = rpy2r([0, 0, 0], unit='deg')
-    tran1 = [0.0, 0.0, 0.0]
+    tran1 = [0.5, 0.5, 0.5]
     start = pose.SE3(tran1[0], tran1[1], tran1[2], rot1)
     print(start)
 
     rot2 = rpy2r([0, 0, 0], unit='deg')
-    tran2 = [0.0, .2, .2]
+    tran2 = [-0.2, .5, -.2]
     stop = pose.SE3(tran2[0], tran2[1], tran2[2], rot2)
     print(stop)
 

@@ -8,9 +8,9 @@ from commands.moves import move_j
 def run(robot):
 
     # define joint positions
-    start = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    start = [0.0, 90.0, 0.0, 0.0, 0.0, 0.0]
     middle = [90.0, 90.0, 0.0, 0.0, 0.0, 0.0]
-    stop = [90.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    stop = [90.0, 90.0, 30.0, 0.0, 0.0, 0.0]
 
     # compute path
     path1 = move_j(robot, start, middle)

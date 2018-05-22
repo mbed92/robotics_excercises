@@ -24,8 +24,6 @@ def type_check(robot, start, stop, convert="joints"):
         if type(start) == pose.SE3 and type(stop) == pose.SE3:
             start = np.transpose(robot.ikine(np.asmatrix(start.data[0])), axes=(1, 0)) * 180 / np.pi
             stop = np.transpose(robot.ikine(np.asmatrix(stop.data[0])), axes=(1, 0)) * 180 / np.pi
-            start = np.array(start)
-            stop = np.array(stop)
     elif str(convert).lower() == "se3":
         # if joints are specified - compute pose
         if type(start) == list and type(stop) == list:
@@ -35,10 +33,13 @@ def type_check(robot, start, stop, convert="joints"):
     return start, stop
 
 
-def move_j(robot, P1, P2, number_of_joints=6, path_length=500):
+def move_j(robot, P1, P2, number_of_joints=6, path_length=100):
 
     # type check
     start, stop = type_check(robot, P1, P2, "joints")
+
+    start = np.array(start)
+    stop = np.array(stop)
 
     # dimensions check for joint movement
     assert start.shape[0] == number_of_joints
@@ -58,7 +59,7 @@ def move_j(robot, P1, P2, number_of_joints=6, path_length=500):
     return path
 
 
-def move_lin(robot, P1, P2, number_of_joints=6, path_length=500):
+def move_lin(robot, P1, P2, number_of_joints=6, path_length=1000):
 
     # type check
     start, stop = type_check(robot, P1, P2, "se3")
