@@ -18,6 +18,7 @@ def run(robot):
 
     # concatenate entire path
     path = np.concatenate((path1, path2), axis=0)
+    print(path)
 
     # animate robot
     robot.animate(stances=path, frame_rate=30, unit='deg')

@@ -12,6 +12,7 @@ def run(robot):
 
     # just not to throw an error
     path = np.concatenate((pose, pose), axis=0)
+    print(path)
 
     # animate robot
     robot.animate(stances=path, frame_rate=1, unit='deg')
