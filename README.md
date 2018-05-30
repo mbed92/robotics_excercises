@@ -1,3 +1,6 @@
+# Contributions
+If you are interested in further development of this repository - contact me: michal.gr.bednarek@doctorate.put.poznan.pl
+
 # robotics_excercises
 Forward kinematics excecises for robotics class in Python 3.5. Contol Engineering and Robotics, Electrical Faculty, 2018.
 
